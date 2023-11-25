@@ -4,6 +4,8 @@ import {TVShowAPI} from "./api/tv-show.js";
 import {useEffect, useState} from "react";
 import {BACKDROP_BASE_URL} from "./config.js";
 import TVShowDetail from "./components/TVShowDetail/TVShowDetail.jsx";
+import Logo from "./components/Logo/Logo.jsx";
+import logo from "./assets/images/logo3.png"
 
 function App() {
 
@@ -33,8 +35,11 @@ function App() {
             <div className={ s.header }>
                 <div className="row">
                     <div className="col-4">
-                        <div>Logo</div>
-                        <div>Subtitle</div>
+                        <Logo
+                            image={logo}
+                            title="WatchBetter"
+                            subtitle='Find a show you may like'
+                        />
                     </div>
                     <div className="col-sm-12 col-md-4">
                         <input style={ {width: '100%'} } type="text"/>
@@ -42,7 +47,7 @@ function App() {
                 </div>
             </div>
             <div className={ s.tv_show_detail }>
-                {currentTVShow && <TVShowDetail tvShow={currentTVShow}/>}
+                { currentTVShow && <TVShowDetail tvShow={ currentTVShow }/> }
             </div>
             <div className={ s.recommandations }>Recommandations</div>
         </div>
