@@ -7,6 +7,7 @@ import TVShowDetail from "./components/TVShowDetail/TVShowDetail.jsx";
 import Logo from "./components/Logo/Logo.jsx";
 import logo from "./assets/images/logo3.png"
 import TVShowListItem from "./components/TVShowListItem/TVShowListItem.jsx";
+import TvShowList from "./components/TVShowList/TVShowList.jsx";
 
 function App() {
 
@@ -20,7 +21,7 @@ function App() {
         }
     }
 
-    async function fetchRecommendations(tvShowId) {
+    async function fetchRecommendations( tvShowId ) {
         const recommendations = await TVShowAPI.fetchRecommendations(tvShowId);
         if (recommendations.length > 0) {
             setRecommendationList(recommendations.slice(0, 10))
@@ -39,7 +40,7 @@ function App() {
         }
     }, [currentTVShow])
 
-    function setCurrentTVShowFromRecommandation( tvShow ) {
+    function setCurrentTVShowFromRecommendation( tvShow ) {
         alert(JSON.stringify(tvShow))
     }
 
@@ -69,13 +70,13 @@ function App() {
             <div className={ s.tv_show_detail }>
                 { currentTVShow && <TVShowDetail tvShow={ currentTVShow }/> }
             </div>
-            <div className={ s.recommanded_shows }>
-                { currentTVShow && (
-                    <TVShowListItem
-                        onClick={ setCurrentTVShowFromRecommandation }
-                        tvShow={ currentTVShow }
+            <div className={ s.recommended_shows }>
+                { recommendationList && recommendationList.length > 0 && (
+                    <TvShowList
+                        onClickItem={ setCurrentTVShow }
+                        tvShowList={ recommendationList }
                     />
-                    )}
+                ) }
             </div>
         </div>
     )
