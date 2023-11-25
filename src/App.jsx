@@ -6,10 +6,12 @@ import {BACKDROP_BASE_URL} from "./config.js";
 import TVShowDetail from "./components/TVShowDetail/TVShowDetail.jsx";
 import Logo from "./components/Logo/Logo.jsx";
 import logo from "./assets/images/logo3.png"
+import TVShowListItem from "./components/TVShowListItem/TVShowListItem.jsx";
 
 function App() {
 
     const [currentTVShow, setCurrentTVShow] = useState();
+    const [recommendationList, setRecommendationList] = useState([]);
 
     async function fetchPopulars() {
         const populars = await TVShowAPI.fetchPopulars();
@@ -18,10 +20,28 @@ function App() {
         }
     }
 
+    async function fetchRecommendations(tvShowId) {
+        const recommendations = await TVShowAPI.fetchRecommendations(tvShowId);
+        if (recommendations.length > 0) {
+            setRecommendationList(recommendations.slice(0, 10))
+        }
+    }
+
     useEffect(() =>
     {
         fetchPopulars();
     }, [])
+
+    useEffect(() =>
+    {
+        if (currentTVShow) {
+            fetchRecommendations(currentTVShow.id)
+        }
+    }, [currentTVShow])
+
+    function setCurrentTVShowFromRecommandation( tvShow ) {
+        alert(JSON.stringify(tvShow))
+    }
 
     return (
         <div
@@ -36,7 +56,7 @@ function App() {
                 <div className="row">
                     <div className="col-4">
                         <Logo
-                            image={logo}
+                            image={ logo }
                             title="WatchBetter"
                             subtitle='Find a show you may like'
                         />
@@ -49,7 +69,14 @@ function App() {
             <div className={ s.tv_show_detail }>
                 { currentTVShow && <TVShowDetail tvShow={ currentTVShow }/> }
             </div>
-            <div className={ s.recommandations }>Recommandations</div>
+            <div className={ s.recommanded_shows }>
+                { currentTVShow && (
+                    <TVShowListItem
+                        onClick={ setCurrentTVShowFromRecommandation }
+                        tvShow={ currentTVShow }
+                    />
+                    )}
+            </div>
         </div>
     )
 }
