@@ -1,7 +1,7 @@
-import s from './style.module.css'
 import {StarFill, Star as StarEmpty, StarHalf} from "react-bootstrap-icons";
 
 
+// eslint-disable-next-line react/prop-types
 function FiveStarRating( {rating} ) {
 
     // Déclarer un tableau d'étoiles vide

@@ -1,5 +1,6 @@
 import s from './logo.module.css';
 
+// eslint-disable-next-line react/prop-types
 const Logo = ( {image, title, subtitle} ) =>
 {
     return (
