@@ -6,8 +6,8 @@ import {BACKDROP_BASE_URL} from "./config.js";
 import TVShowDetail from "./components/TVShowDetail/TVShowDetail.jsx";
 import Logo from "./components/Logo/Logo.jsx";
 import logo from "./assets/images/logo3.png"
-import TVShowListItem from "./components/TVShowListItem/TVShowListItem.jsx";
 import TvShowList from "./components/TVShowList/TVShowList.jsx";
+import SearchBar from "./components/SearchBar/SearchBar.jsx";
 
 function App() {
 
@@ -15,16 +15,24 @@ function App() {
     const [recommendationList, setRecommendationList] = useState([]);
 
     async function fetchPopulars() {
-        const populars = await TVShowAPI.fetchPopulars();
-        if (populars.length > 0) {
-            setCurrentTVShow(populars[1])
+        try {
+            const populars = await TVShowAPI.fetchPopulars();
+            if (populars.length > 0) {
+                setCurrentTVShow(populars[1])
+            }
+        } catch (error) {
+            alert('Erreur durant la recherche des séries populaires')
         }
     }
 
     async function fetchRecommendations( tvShowId ) {
-        const recommendations = await TVShowAPI.fetchRecommendations(tvShowId);
-        if (recommendations.length > 0) {
-            setRecommendationList(recommendations.slice(0, 10))
+        try {
+            const recommendations = await TVShowAPI.fetchRecommendations(tvShowId);
+            if (recommendations.length > 0) {
+                setRecommendationList(recommendations.slice(0, 10))
+            }
+        } catch (error) {
+            alert('Erreur lors de la recherche des séries recommandées')
         }
     }
 
@@ -40,8 +48,15 @@ function App() {
         }
     }, [currentTVShow])
 
-    function setCurrentTVShowFromRecommendation( tvShow ) {
-        alert(JSON.stringify(tvShow))
+    async function searchTVShow( tvShowName ) {
+        try {
+            const searchResponse = await TVShowAPI.fetchByTitle(tvShowName);
+            if (searchResponse.length > 0) {
+                setCurrentTVShow(searchResponse[0])
+            }
+        } catch (error) {
+            alert('Erreur lors de la recherche de la série')
+        }
     }
 
     return (
@@ -63,7 +78,9 @@ function App() {
                         />
                     </div>
                     <div className="col-sm-12 col-md-4">
-                        <input style={ {width: '100%'} } type="text"/>
+                        <SearchBar
+                            onSubmit={ searchTVShow }
+                        />
                     </div>
                 </div>
             </div>
