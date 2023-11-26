@@ -1,3 +1,15 @@
-# Application reactJs pour recommandations de series TV
+# ViteReact TV show adviser
 
-## Fleur Geoffrey
+## Getting started
+
+```shell
+npm i
+npm run dev
+```
+add .env with
+
+```dotenv
+VITE_API_KEY_PARAM=
+```
+
+### Fleur Geoffrey
